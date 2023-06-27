@@ -132,6 +132,8 @@ class Calendar extends StatefulWidget {
 
   final Widget? expansionWidget;
   final CalendarController? controller;
+  final double? nameAndIconRowHeight;
+  final double calendarTileAspectRatio;
 
   /// Configures the date picker if enabled
 
@@ -176,6 +178,8 @@ class Calendar extends StatefulWidget {
     this.eventTileHeight,
     this.expansionWidget,
     this.controller,
+    this.nameAndIconRowHeight,
+    this.calendarTileAspectRatio = 1.5,
   });
 
   @override
@@ -418,27 +422,30 @@ class _CalendarState extends State<Calendar> {
       jumpDateIcon = Container();
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        leftArrow ?? Container(),
-        Expanded(
-          child: Column(
-            children: <Widget>[
-              todayIcon ?? Container(),
-              Text(
-                displayMonth,
-                style: widget.displayMonthTextStyle ??
-                    TextStyle(
-                      fontSize: 20.0,
-                    ),
-              ),
-            ],
+    return Container(
+      height: widget.nameAndIconRowHeight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          leftArrow ?? Container(),
+          Expanded(
+            child: Column(
+              children: <Widget>[
+                todayIcon ?? Container(),
+                Text(
+                  displayMonth,
+                  style: widget.displayMonthTextStyle ??
+                      TextStyle(
+                        fontSize: 20.0,
+                      ),
+                ),
+              ],
+            ),
           ),
-        ),
-        jumpDateIcon ?? Container(),
-        rightArrow ?? Container(),
-      ],
+          jumpDateIcon ?? Container(),
+          rightArrow ?? Container(),
+        ],
+      ),
     );
   }
 
@@ -456,7 +463,7 @@ class _CalendarState extends State<Calendar> {
         ),
         child: Column(children: <Widget>[
           GridView.count(
-            childAspectRatio: 1.5,
+            childAspectRatio: widget.calendarTileAspectRatio,
             primary: false,
             shrinkWrap: true,
             crossAxisCount: 7,
